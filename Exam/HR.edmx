@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SURNAME" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="NAME" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="BIRTH_DATE" Type="date" Nullable="false" />
+          <Property Name="POSITION" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Time_table">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Employees" Type="int" />
+          <Property Name="working_day_start" Type="smalldatetime" Nullable="false" />
+          <Property Name="working_day_finish" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Work_hystory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID_Employees" Type="int" />
+          <Property Name="Entry_date" Type="date" Nullable="false" />
+          <Property Name="Finish_DATE" Type="date" />
+          <Property Name="Order_num_entry" Type="int" Nullable="false" />
+          <Property Name="Order_num_finish" Type="int" />
+          <Property Name="Photo" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__Time_tabl__ID_Em__2C3393D0">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Time_table" Type="Self.Time_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Time_table">
+              <PropertyRef Name="ID_Employees" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Work_hyst__ID_Em__2F10007B">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Work_hystory" Type="Self.Work_hystory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Work_hystory">
+              <PropertyRef Name="ID_Employees" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HRModelStoreContainer">
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Time_table" EntityType="Self.Time_table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Work_hystory" EntityType="Self.Work_hystory" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Time_tabl__ID_Em__2C3393D0" Association="Self.FK__Time_tabl__ID_Em__2C3393D0">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Time_table" EntitySet="Time_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Work_hyst__ID_Em__2F10007B" Association="Self.FK__Work_hyst__ID_Em__2F10007B">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Work_hystory" EntitySet="Work_hystory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SURNAME" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BIRTH_DATE" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="POSITION" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Time_table" Relationship="Self.FK__Time_tabl__ID_Em__2C3393D0" FromRole="Employees" ToRole="Time_table" />
+          <NavigationProperty Name="Work_hystory" Relationship="Self.FK__Work_hyst__ID_Em__2F10007B" FromRole="Employees" ToRole="Work_hystory" />
+        </EntityType>
+        <EntityType Name="Time_table">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Employees" Type="Int32" />
+          <Property Name="working_day_start" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="working_day_finish" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Time_tabl__ID_Em__2C3393D0" FromRole="Time_table" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="Work_hystory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID_Employees" Type="Int32" />
+          <Property Name="Entry_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Finish_DATE" Type="DateTime" Precision="0" />
+          <Property Name="Order_num_entry" Type="Int32" Nullable="false" />
+          <Property Name="Order_num_finish" Type="Int32" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Work_hyst__ID_Em__2F10007B" FromRole="Work_hystory" ToRole="Employees" />
+        </EntityType>
+        <Association Name="FK__Time_tabl__ID_Em__2C3393D0">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Time_table" Type="Self.Time_table" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Time_table">
+              <PropertyRef Name="ID_Employees" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Work_hyst__ID_Em__2F10007B">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Work_hystory" Type="Self.Work_hystory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Work_hystory">
+              <PropertyRef Name="ID_Employees" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HREntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Time_table" EntityType="Self.Time_table" />
+          <EntitySet Name="Work_hystory" EntityType="Self.Work_hystory" />
+          <AssociationSet Name="FK__Time_tabl__ID_Em__2C3393D0" Association="Self.FK__Time_tabl__ID_Em__2C3393D0">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Time_table" EntitySet="Time_table" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Work_hyst__ID_Em__2F10007B" Association="Self.FK__Work_hyst__ID_Em__2F10007B">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Work_hystory" EntitySet="Work_hystory" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HRModelStoreContainer" CdmEntityContainer="HREntities">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="HRModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SURNAME" ColumnName="SURNAME" />
+                <ScalarProperty Name="NAME" ColumnName="NAME" />
+                <ScalarProperty Name="BIRTH_DATE" ColumnName="BIRTH_DATE" />
+                <ScalarProperty Name="POSITION" ColumnName="POSITION" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Time_table">
+            <EntityTypeMapping TypeName="HRModel.Time_table">
+              <MappingFragment StoreEntitySet="Time_table">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Employees" ColumnName="ID_Employees" />
+                <ScalarProperty Name="working_day_start" ColumnName="working_day_start" />
+                <ScalarProperty Name="working_day_finish" ColumnName="working_day_finish" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Work_hystory">
+            <EntityTypeMapping TypeName="HRModel.Work_hystory">
+              <MappingFragment StoreEntitySet="Work_hystory">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ID_Employees" ColumnName="ID_Employees" />
+                <ScalarProperty Name="Entry_date" ColumnName="Entry_date" />
+                <ScalarProperty Name="Finish_DATE" ColumnName="Finish_DATE" />
+                <ScalarProperty Name="Order_num_entry" ColumnName="Order_num_entry" />
+                <ScalarProperty Name="Order_num_finish" ColumnName="Order_num_finish" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
